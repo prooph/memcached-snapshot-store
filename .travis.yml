@@ -22,7 +22,7 @@ cache:
 before_script:
   - mkdir -p "$HOME/.php-cs-fixer"
   - phpenv config-rm xdebug.ini
-  - phpenv config-add memcached.ini
+  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - composer self-update
   - composer update --prefer-dist $DEPENDENCIES
 
