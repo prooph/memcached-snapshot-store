@@ -19,4 +19,9 @@
             <directory>./src/</directory>
         </whitelist>
     </filter>
+
+    <php>
+        <var name="memcached_host" value="localhost" />
+        <var name="memcached_port" value="11211" />
+    </php>
 </phpunit>
