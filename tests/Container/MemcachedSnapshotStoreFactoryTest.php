@@ -71,7 +71,9 @@ class MemcachedSnapshotStoreFactoryTest extends TestCase
 
         $container->get('my_connection')->willReturn($connection)->shouldBeCalled();
         $container->get('config')->willReturn($config)->shouldBeCalled();
-        $container->get('serializer_servicename')->willReturn(new CallbackSerializer(function() {}, function() {}))->shouldBeCalled();
+        $container->get('serializer_servicename')->willReturn(new CallbackSerializer(function () {
+        }, function () {
+        }))->shouldBeCalled();
 
         $factory = new MemcachedSnapshotStoreFactory();
         $snapshotStore = $factory($container->reveal());

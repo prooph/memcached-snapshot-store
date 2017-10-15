@@ -71,7 +71,7 @@ final class MemcachedSnapshotStore implements SnapshotStore
                 $snapshot->aggregateType(),
                 $snapshot->lastVersion(),
                 $snapshot->createdAt()->format('Y-m-d\TH:i:s.u'),
-                $this->serializer->serialize($snapshot->aggregateRoot())
+                $this->serializer->serialize($snapshot->aggregateRoot()),
             ];
         }
 
@@ -82,7 +82,7 @@ final class MemcachedSnapshotStore implements SnapshotStore
     {
         $keys = $this->connection->getAllKeys();
 
-        foreach($keys as $item) {
+        foreach ($keys as $item) {
             if (substr($item, 0, strlen($aggregateType)) === $aggregateType) {
                 $this->connection->delete($item);
             }
