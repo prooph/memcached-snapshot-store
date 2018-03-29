@@ -60,7 +60,7 @@ class MemcachedSnapshotStoreFactoryTest extends TestCase
         $container->get('my_connection')->willReturn($connection)->shouldBeCalled();
         $container->get('config')->willReturn($config)->shouldBeCalled();
 
-        $factory = new MemcachedSnapshotStore();
+        $factory = new MemcachedSnapshotStoreFactory();
         $snapshotStore = $factory($container->reveal());
 
         $this->assertInstanceOf(MemcachedSnapshotStore::class, $snapshotStore);
