@@ -26,7 +26,7 @@ Sample configuration:
     'prooph' => [
         'memcached_snapshot_store' => [
             'default' => [
-                'connection_service' => 'my_memcached_connection', //<-- service name of your memcached connection
+                'connection' => 'my_memcached_connection', //<-- service name of your memcached connection
                 'serializer' => 'My\Serializer' //<-- optional, service name of a custom serializer
             ],
         ],
