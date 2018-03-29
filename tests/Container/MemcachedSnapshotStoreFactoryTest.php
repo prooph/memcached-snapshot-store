@@ -28,7 +28,7 @@ class MemcachedSnapshotStoreFactoryTest extends TestCase
     public function it_creates_adapter_via_connection_service(): void
     {
         $config['prooph']['memcached_snapshot_store']['default'] = [
-            'connection_service' => 'my_connection',
+            'connection' => 'my_connection',
         ];
 
         $connection = TestUtil::getConnection();
@@ -39,6 +39,28 @@ class MemcachedSnapshotStoreFactoryTest extends TestCase
         $container->get('config')->willReturn($config)->shouldBeCalled();
 
         $factory = new MemcachedSnapshotStoreFactory();
+        $snapshotStore = $factory($container->reveal());
+
+        $this->assertInstanceOf(MemcachedSnapshotStore::class, $snapshotStore);
+    }
+
+    /**
+     * @test
+     */
+    public function it_still_works_with_deprecated_connection_service_key(): void
+    {
+        $config['prooph']['memcached_snapshot_store']['default'] = [
+            'connection_service' => 'my_connection',
+        ];
+
+        $connection = TestUtil::getConnection();
+
+        $container = $this->prophesize(ContainerInterface::class);
+
+        $container->get('my_connection')->willReturn($connection)->shouldBeCalled();
+        $container->get('config')->willReturn($config)->shouldBeCalled();
+
+        $factory = new MemcachedSnapshotStore();
         $snapshotStore = $factory($container->reveal());
 
         $this->assertInstanceOf(MemcachedSnapshotStore::class, $snapshotStore);
@@ -61,7 +83,7 @@ class MemcachedSnapshotStoreFactoryTest extends TestCase
     public function it_gets_serializer_from_container_when_not_instanceof_serializer(): void
     {
         $config['prooph']['memcached_snapshot_store']['default'] = [
-            'connection_service' => 'my_connection',
+            'connection' => 'my_connection',
             'serializer' => 'serializer_servicename',
         ];
 
