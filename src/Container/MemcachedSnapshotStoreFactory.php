@@ -59,9 +59,25 @@ class MemcachedSnapshotStoreFactory implements ProvidesDefaultOptions, RequiresC
     public function __invoke(ContainerInterface $container): MemcachedSnapshotStore
     {
         $config = $container->get('config');
+
+        /** repair legacy connection_service config key*/
+        (function (&$config): void {
+            foreach ($this->dimensions() as $dimension) {
+                $config = &$config[$dimension];
+            }
+
+            $config = &$config[$this->configId] ?? [];
+
+            if (! isset($config['connection']) && isset($config['connection_service'])) {
+                $config['connection'] = $config['connection_service'];
+            }
+
+            unset($config['connection_service']);
+        })($config);
+
         $config = $this->options($config, $this->configId);
 
-        $connection = $container->get($config['connection_service']);
+        $connection = $container->get($config['connection']);
         $serializer = $config['serializer'] instanceof Serializer ? $config['serializer'] : $container->get($config['serializer']);
 
         return new MemcachedSnapshotStore(
@@ -83,7 +99,7 @@ class MemcachedSnapshotStoreFactory implements ProvidesDefaultOptions, RequiresC
     public function mandatoryOptions(): iterable
     {
         return [
-            'connection_service',
+            'connection',
         ];
     }
 
