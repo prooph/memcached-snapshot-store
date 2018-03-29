@@ -77,7 +77,7 @@ class MemcachedSnapshotStoreFactory implements ProvidesDefaultOptions, RequiresC
 
         $config = $this->options($config, $this->configId);
 
-        $connection = $container->get($config['connection_service']);
+        $connection = $container->get($config['connection']);
         $serializer = $config['serializer'] instanceof Serializer ? $config['serializer'] : $container->get($config['serializer']);
 
         return new MemcachedSnapshotStore(
