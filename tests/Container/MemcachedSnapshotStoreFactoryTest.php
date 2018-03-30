@@ -69,6 +69,29 @@ class MemcachedSnapshotStoreFactoryTest extends TestCase
     /**
      * @test
      */
+    public function it_still_works_with_deprecated_connection_service_key_for_config_objects(): void
+    {
+        $config['prooph']['memcached_snapshot_store']['default'] = [
+            'connection_service' => 'my_connection',
+        ];
+
+        $connection = TestUtil::getConnection();
+
+        $container = $this->prophesize(ContainerInterface::class);
+
+        $container->get('my_connection')->willReturn($connection)->shouldBeCalled();
+        $container->get('config')->willReturn(new \ArrayObject($config))->shouldBeCalled();
+
+        $factory = new MemcachedSnapshotStoreFactory();
+        $snapshotStore = $factory($container->reveal());
+
+        $this->assertInstanceOf(MemcachedSnapshotStore::class, $snapshotStore);
+        $this->assertArrayHasKey('connection_service', $container->reveal()->get('config')['prooph']['memcached_snapshot_store']['default']);
+    }
+
+    /**
+     * @test
+     */
     public function it_throws_exception_when_invalid_container_given(): void
     {
         $this->expectException(\InvalidArgumentException::class);
