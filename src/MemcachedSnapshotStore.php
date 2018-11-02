@@ -1,6 +1,7 @@
 <?php
+
 /**
- * This file is part of the prooph/memcached-snapshot-store.
+ * This file is part of prooph/memcached-snapshot-store.
  * (c) 2017-2018 prooph software GmbH <contact@prooph.de>
  * (c) 2017-2018 Sascha-Oliver Prolic <saschaprolic@googlemail.com>
  *
@@ -83,7 +84,7 @@ final class MemcachedSnapshotStore implements SnapshotStore
         $keys = $this->connection->getAllKeys();
 
         foreach ($keys as $item) {
-            if (substr($item, 0, strlen($aggregateType)) === $aggregateType) {
+            if (\substr($item, 0, \strlen($aggregateType)) === $aggregateType) {
                 $this->connection->delete($item);
             }
         }
