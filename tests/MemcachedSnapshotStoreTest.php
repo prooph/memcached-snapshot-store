@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the prooph/memcached-snapshot-store.
  * (c) 2017-2018 prooph software GmbH <contact@prooph.de>
@@ -38,8 +39,8 @@ class MemcachedSnapshotStoreTest extends TestCase
         $aggregateRoot = new \stdClass();
         $aggregateRoot->foo = 'bar';
 
-        $time = (string) microtime(true);
-        if (false === strpos($time, '.')) {
+        $time = (string) \microtime(true);
+        if (false === \strpos($time, '.')) {
             $time .= '.0000';
         }
 
@@ -74,8 +75,8 @@ class MemcachedSnapshotStoreTest extends TestCase
 
         $aggregateRoot2 = ['foo' => 'baz'];
 
-        $time = (string) microtime(true);
-        if (false === strpos($time, '.')) {
+        $time = (string) \microtime(true);
+        if (false === \strpos($time, '.')) {
             $time .= '.0000';
         }
 
